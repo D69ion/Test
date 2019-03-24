@@ -47,8 +47,8 @@ int main()
 
 	//6
 	cout << "Задание №6" << "\r\n";
-	static double dArr[5];
-	int size = sizeof(dArr) / 4;
+	double dArr[5];
+	size = sizeof(dArr) / 4;
 	for (int i = 0; i < 5; i++)
 	{
 		cout << dArr[i] << "\r\n";
@@ -122,11 +122,11 @@ int main()
 			}
 		}
 	}
-
 	cout << cArr[1][2][3] << "\r\n";
 
 	//10
 	cout << "Задание №10" << "\r\n";
+	char q[5][5][5];
 	char ***c = new char**[5];
 	for (int i = 0; i < 5; i++)
 	{
@@ -144,6 +144,9 @@ int main()
 
 	//11
 	cout << "Задание №11" << "\r\n";
+	char(*pChar)[5][5];
+	pChar = cArr;
+	cout << (*pChar)[0][0] << "\r\n";
 }
 
 
