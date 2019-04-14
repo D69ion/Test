@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-int main()
+int mainq()
 {
 	setlocale(LC_ALL, "");
 
@@ -142,6 +142,8 @@ int main()
 	cArr[0][0][0] = 'w';
 	pChar = cArr;
 	cout << (*pChar)[0][0] << "\r\n";
+
+	return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
