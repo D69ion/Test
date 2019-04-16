@@ -13,14 +13,14 @@ struct something
 };
 
 
-void fillArray(something &s) {
+void fillArray(something *s) {
 	cout << "ƒлина массива: " << endl;
-	cin >> s.size;
-	s.pArray = new double[s.size];
+	cin >> s->size;
+	s->pArray = new double[s->size];
 	cout << "¬ведите значени€" << endl;
-	for (int i = 0; i < s.size; i++)
+	for (int i = 0; i < s->size; i++)
 	{
-		cin >> s.pArray[i];
+		cin >> s->pArray[i];
 	}
 }
 
@@ -41,11 +41,10 @@ void fillInfo(something *s) {
 	cin >> s->pSurname;
 	cout << "¬ведите id: " << endl;
 	cin >> s->id;
-	fillArray(*s);
 }
 
-void outputInfo(something *s) {
-	cout << s->name + ' ' << s->pSurname + ' ' << ", ID: " + s->id << endl;
+void outputInfo(something &s) {
+	cout << s.name + ' ' << s.pSurname + ' ' << ", ID: " + s.id << endl;
 }
 
 void freeMemory(something *s) {
@@ -53,32 +52,41 @@ void freeMemory(something *s) {
 	delete[] s->pArray;
 }
 
-void initStruct(something &s) {
-	fillInfo(&s);
+void initStruct(something *s) {
+	fillInfo(s);
+	fillArray(s);
+}
+
+void incr(int *x) {
+	(*x)++;
+	cout << *x << endl;
 }
 
 int main()
 {
 	setlocale(LC_ALL, "");
 
+	int a = 4;
+	incr(&a);
+
 	something s;
 	something *ps;
 	ps = new something[3];
 
-	initStruct(s);
+	initStruct(&s);
 	cout << endl;
-	outputInfo(&s);
+	outputInfo(s);
 	printArray(s);
 	cout << endl;
 
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
-		initStruct(ps[i]);
+		initStruct(&ps[i]);
 		cout << endl;
-		outputInfo(&ps[i]);
+		outputInfo(ps[i]);
 		printArray(ps[i]);
 		cout << endl;
-	}
+	}*/
 
 	freeMemory(&s);
 	for (int i = 0; i < 3; i++)
