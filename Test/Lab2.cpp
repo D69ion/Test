@@ -12,7 +12,6 @@ struct something
 	double *pArray;
 };
 
-
 void fillArray(something *s) {
 	cout << "Длина массива: " << endl;
 	cin >> s->size;
@@ -89,10 +88,10 @@ int main()
 	}*/
 
 	freeMemory(&s);
-	for (int i = 0; i < 3; i++)
-	{
-		freeMemory(&ps[i]);
-	}
-	delete[] ps;
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	freeMemory(&ps[i]);
+	//}
+	//delete[] ps;
 	return 0;
 }
