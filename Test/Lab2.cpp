@@ -27,7 +27,7 @@ void printArray(something &s) {
 	cout << "Содержимое массива" << endl;
 	for (int i = 0; i < s.size; i++)
 	{
-		cout << s.pArray[i] + ' ';
+		cout << s.pArray[i] << ' ';
 	}
 	cout << endl;
 }
@@ -43,7 +43,7 @@ void fillInfo(something *s) {
 }
 
 void outputInfo(something &s) {
-	cout << s.name + ' ' << s.pSurname + ' ' << ", ID: " + s.id << endl;
+	cout << s.name << ' ' << s.pSurname << ' ' << ", ID: " << s.id << endl;
 }
 
 void freeMemory(something *s) {
@@ -78,20 +78,20 @@ int main()
 	printArray(s);
 	cout << endl;
 
-	/*for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		initStruct(&ps[i]);
 		cout << endl;
 		outputInfo(ps[i]);
 		printArray(ps[i]);
 		cout << endl;
-	}*/
+	}
 
 	freeMemory(&s);
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	freeMemory(&ps[i]);
-	//}
-	//delete[] ps;
+	for (int i = 0; i < 3; i++)
+	{
+		freeMemory(&ps[i]);
+	}
+	delete[] ps;
 	return 0;
 }
