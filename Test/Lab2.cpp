@@ -56,17 +56,9 @@ void initStruct(something *s) {
 	fillArray(s);
 }
 
-void incr(int *x) {
-	(*x)++;
-	cout << *x << endl;
-}
-
-int main()
+int mainw()
 {
 	setlocale(LC_ALL, "");
-
-	int a = 4;
-	incr(&a);
 
 	something s;
 	something *ps;
