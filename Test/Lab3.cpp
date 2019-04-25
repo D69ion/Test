@@ -3,6 +3,8 @@
 #include <fstream>
 using namespace std;
 
+#pragma warning(disable:4996)
+
 struct people
 {
 	char name[30];
@@ -63,7 +65,7 @@ void writeTextFile(people *&p) {
 	for (int i = 0; i < 3; i++)
 	{
 		out << p[i].name << ' ' << p[i].pSurname << endl << p[i].id << endl << p[i].size << endl;
-		for (int j = 0; j < p[i].size; i++)
+		for (int j = 0; j < p[i].size; j++)
 		{
 			out << p[i].pArray[j] << ' ';
 		}
@@ -78,11 +80,12 @@ void readTextFile(people *&p) {
 	for (int i = 0; i < 3; i++)
 	{
 		in >> p[i].name;
+		p[i].pSurname = new char[30];
 		in >> p[i].pSurname;
 		in >> p[i].id;
 		in >> p[i].size;
 		p[i].pArray = new double[p[i].size];
-		for (int j = 0; j < p[i].size; i++)
+		for (int j = 0; j < p[i].size; j++)
 		{
 			in >> p[i].pArray[j];
 		}
@@ -90,40 +93,78 @@ void readTextFile(people *&p) {
 	in.close();
 }
 
-void writeBinFile(people *&p) {
-
+void writeBinFile(people *&p, FILE *file) {
+	file = fopen("file.bin", "wb");
+	for (int i = 0; i < 3; i++)
+	{
+		//fwrite(&p[i], sizeof(people), 1, file);
+		fwrite(&p[i].name, 30, 1, file);
+		fwrite(&p[i].pSurname, 30, 1, file);
+		fwrite(&p[i].id, sizeof(int), 1, file);
+		fwrite(&p[i].size, sizeof(double), 1, file);
+		for (int j = 0; j < p[i].size; j++)
+		{
+			fwrite(&p[i].pArray[j], sizeof(double), 1, file);
+		}
+	}
+	fclose(file);
 }
 
-void readBinFile(people *&p) {
-
+void readBinFile(people *&p, FILE *file) {
+	file = fopen("file.bin", "rb");
+	for (int i = 0; i < 3; i++)
+	{
+		fread(&p[i].name, 30, 1, file);
+		p[i].pSurname = new char[30];
+		fread(&p[i].pSurname, 30, 1, file);
+		fread(&p[i].id, sizeof(int), 1, file);
+		fread(&p[i].size, sizeof(double), 1, file);
+		for (int j = 0; j < p[i].size; j++)
+		{
+			fread(&p[i].pArray[j], sizeof(double), 1, file);
+		}
+	}
+	fclose(file);
 }
 
 int main()
 {
 	setlocale(LC_ALL, "");
 
-	people *pPw = new people[3];
-	people *pPr = new people[3];
-	people *pPb = new people[3];
+	people *pSrc = new people[3];
+	people *pTxtAr = new people[3];
+	people *pBinAr = new people[3];
+	FILE *binWr = nullptr, *binR = nullptr;
 
 	for (int i = 0; i < 3; i++)
 	{
-		initStruct(&pPw[i]);
+		initStruct(&pSrc[i]);
 		cout << endl;
 	}
-	writeTextFile(pPw);
+	writeTextFile(pSrc);
+	writeBinFile(pSrc, binWr);
 
+	cout << "Содержимое исходного массива" << endl;
 	for (int i = 0; i < 3; i++)
 	{
-		outputInfo(pPw[i]);
-		printArray(pPw[i]);
+		outputInfo(pSrc[i]);
+		printArray(pSrc[i]);
 	}
 
-	readTextFile(pPr);
+	cout << "Содержимое массива после считывания текстового файла" << endl;
+	readTextFile(pTxtAr);
 	for (int i = 0; i < 3; i++)
 	{
-		outputInfo(pPr[i]);
-		printArray(pPr[i]);
+		outputInfo(pTxtAr[i]);
+		printArray(pTxtAr[i]);
+	}
+
+	cout << "Содержимое массива после считывания бинарного файла" << endl;
+	readBinFile(pBinAr, binR);
+	for (int i = 0; i < 3; i++) 
+	{
+		outputInfo(pBinAr[i]);
+		printArray(pBinAr[i]);
 	}
 	return 0;
 }
