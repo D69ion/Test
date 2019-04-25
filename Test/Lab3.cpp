@@ -151,6 +151,7 @@ int main()
 		printArray(pSrc[i]);
 	}
 
+	cout << endl;
 	cout << "Содержимое массива после считывания текстового файла" << endl;
 	readTextFile(pTxtAr);
 	for (int i = 0; i < 3; i++)
@@ -159,6 +160,7 @@ int main()
 		printArray(pTxtAr[i]);
 	}
 
+	cout << endl;
 	cout << "Содержимое массива после считывания бинарного файла" << endl;
 	readBinFile(pBinAr, binR);
 	for (int i = 0; i < 3; i++) 
