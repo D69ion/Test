@@ -127,7 +127,7 @@ void readBinFile(people *&p, FILE *file) {
 	fclose(file);
 }
 
-int main()
+int maine()
 {
 	setlocale(LC_ALL, "");
 
