@@ -18,12 +18,13 @@ public:
 			return NULL;
 		}
 		else {
+			int buf = array[size];
 			size--;
-			return array[size];
+			return buf;
 		}
 	}
 
-	int size() {
+	int getSize() {
 		return size + 1;
 	}
 };
@@ -44,26 +45,13 @@ public:
 			return NAN;
 		}
 		else {
-			int result = array[1];
-			array[1] = NAN;
-			int buffer[5];
-			for (int i = 0; i < size; i++)
-			{
-				if (this->array[i] == NAN) {
-					for (int j = i + 1; j < size; j++)
-					{
-						this->array[j - 1] = this->array[j];
-					}
-					this->array[4] = NAN;
-					break;
-				}
-			}
+			int buf = array[size];
 			size--;
-			return result;
+			return buf;
 		}
 	}
 
-	int size() {
+	int getSize() {
 		return size + 1;
 	}
 };
@@ -75,18 +63,18 @@ private:
 		node *next, *prev;
 	};
 
-	node head;
+	node *head;
 	int size = -1;
 
 public:
-	void push(int value){
+	void push(int value) {
 		size++;
-		node buf = { value,  size, nullptr , nullptr };
+		node buf = { value,  size, nullptr, nullptr };
 		if (size == 0) {
-			head = buf;
+			head = &buf;
 			return;
 		}
-		node *temp = &head;
+		node *temp = head;
 		while (temp->next != nullptr) {
 			temp = temp->next;
 		}
@@ -95,7 +83,11 @@ public:
 	}
 
 	int pop() {
-		node *node = &head, *last = nullptr;
+		if (size == -1) {
+			return NAN;
+		}
+		size--;
+		node *node = head, *last = nullptr;
 		while (node->next != nullptr) {
 			node = node->next;
 		}
@@ -107,7 +99,7 @@ public:
 		return buf;
 	}
 
-	int size() {
+	int getSize() {
 		return size + 1;
 	}
 };
@@ -116,22 +108,39 @@ class circledQueue {
 private:
 	struct node {
 		int value, index;
-		node * next;
+		node *next;
 	};
 
-	node head, tail;
+	node *head, *tail;
 	int size = -1;
 
 public:
 	void push(int value) {
-
+		size++;
+		if (size == 0) {
+			node hBuf = { value, size, tail };
+			node tBuf = { value, size, head };
+			head = &hBuf;
+			tail = &tBuf;
+			return;
+		}
+		node buf = { value, size, head };
+		tail->next = &buf;
+		tail = tail->next;
 	}
 
 	int pop() {
-
+		if (size == -1) {
+			return NAN;
+		}
+		size--;
+		int buf = head->value;
+		head = head->next;
+		tail->next = head;
+		return buf;
 	}
 
-	int size() {
+	int getSize() {
 		return size + 1;
 	}
 };
@@ -140,8 +149,50 @@ class priorityQueue {
 
 };
 
-int main() 
+int main()
 {
+	//stack stack;
+	int a;
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	cin >> a;
+	//	stack.push(a);
+	//}
+	//cout << endl;
+
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	cout << stack.pop() << endl;
+	//}
+	//cout << endl;
+
+	//queue q;
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	cin >> a;
+	//	q.push(a);
+	//}
+	//cout << endl;
+
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	cout << q.pop() << endl;
+	//}
+	//cout << endl;
+
+	linkedStack lstack;
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> a;
+		lstack.push(a);
+	}
+	cout << endl;
+
+	for (int i = 0; i < 5; i++)
+	{
+		cout << lstack.pop() << endl;
+	}
+	cout << endl;
 
 	return 0;
 }
