@@ -19,6 +19,7 @@ public:
 		}
 		else {
 			int buf = array[size];
+			array[size] = NAN;
 			size--;
 			return buf;
 		}
@@ -32,27 +33,32 @@ public:
 class queue {
 private:
 	int array[5];
-	int size = -1;
+	int index = -1;
 
 public:
 	void push(int value) {
-		size++;
-		array[size] = value;
+		index++;
+		array[index] = value;
 	}
 
 	int pop() {
-		if (size == -1) {
+		if (index == -1) {
 			return NAN;
 		}
 		else {
-			int buf = array[size];
-			size--;
+			int buf = array[0];
+			for (int i = 1; i < index + 1; i++)
+			{
+				array[i - 1] = array[i];
+			}
+			array[index] = NAN;
+			index--;
 			return buf;
 		}
 	}
 
 	int getSize() {
-		return size + 1;
+		return index + 1;
 	}
 };
 
@@ -63,7 +69,7 @@ private:
 		node *next, *prev;
 	};
 
-	node *head;
+	node head;
 	int size = -1;
 
 public:
@@ -71,10 +77,10 @@ public:
 		size++;
 		node buf = { value,  size, nullptr, nullptr };
 		if (size == 0) {
-			head = &buf;
+			head = buf;
 			return;
 		}
-		node *temp = head;
+		node *temp = &head;
 		while (temp->next != nullptr) {
 			temp = temp->next;
 		}
@@ -87,7 +93,7 @@ public:
 			return NAN;
 		}
 		size--;
-		node *node = head, *last = nullptr;
+		node *node = &head, *last = nullptr;
 		while (node->next != nullptr) {
 			node = node->next;
 		}
