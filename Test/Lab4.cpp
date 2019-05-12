@@ -112,79 +112,71 @@ public:
 
 class circledQueue {
 private:
-	struct node {
-		int value, index;
-		node *next;
-	};
-
-	node *head, *tail;
-	int size = -1;
+	int array[5];
+	int size = 0, push_index = 0, pop_index = 0;
 
 public:
 	void push(int value) {
-		size++;
-		if (size == 0) {
-			node hBuf = { value, size, tail };
-			node tBuf = { value, size, head };
-			head = &hBuf;
-			tail = &tBuf;
-			return;
+		if (push_index == 5) {
+			push_index = 0;
 		}
-		node buf = { value, size, head };
-		tail->next = &buf;
-		tail = tail->next;
+		if (array[push_index] == 0 || array[push_index] == -858993460) {
+			array[push_index] = value;
+			size++;
+			push_index++;
+		}
 	}
 
 	int pop() {
-		if (size == -1) {
+		if (size == 0) {
 			return NAN;
 		}
+
+		if (pop_index == 5) {
+			pop_index = 0;
+		}
+		int buf = array[pop_index];
+		array[pop_index] = NAN;
+		pop_index++;
 		size--;
-		int buf = head->value;
-		head = head->next;
-		tail->next = head;
 		return buf;
 	}
 
 	int getSize() {
-		return size + 1;
+		return size;
 	}
-};
-
-class priorityQueue {
-
 };
 
 int main()
 {
-	//stack stack;
+	stack stack;
 	int a;
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	cin >> a;
-	//	stack.push(a);
-	//}
-	//cout << endl;
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> a;
+		stack.push(a);
+	}
+	cout << endl;
 
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	cout << stack.pop() << endl;
-	//}
-	//cout << endl;
+	for (int i = 0; i < 5; i++)
+	{
+		cout << stack.pop() << endl;
+	}
+	cout << endl;
 
-	//queue q;
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	cin >> a;
-	//	q.push(a);
-	//}
-	//cout << endl;
+	queue q;
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> a;
+		q.push(a);
+	}
+	cout << endl;
 
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	cout << q.pop() << endl;
-	//}
-	//cout << endl;
+	for (int i = 0; i < 5; i++)
+	{
+		cout << q.pop() << endl;
+	}
+	cout << endl;
 
 	linkedStack lstack;
 	for (int i = 0; i < 5; i++)
@@ -198,6 +190,27 @@ int main()
 	{
 		cout << lstack.pop() << endl;
 	}
+	cout << endl;
+
+	circledQueue cqueue;
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> a;
+		cqueue.push(a);
+	}
+	cout << endl;
+
+	for (int i = 0; i < 1; i++)
+	{
+		cout << cqueue.pop() << endl;
+	}
+	cin >> a;
+	cqueue.push(a);
+	for (int i = 0; i < 5; i++)
+	{
+		cout << cqueue.pop() << endl;
+	}
+
 	cout << endl;
 
 	return 0;
