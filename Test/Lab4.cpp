@@ -75,16 +75,20 @@ private:
 public:
 	void push(int value) {
 		size++;
-		node buf = { value,  size, nullptr, nullptr };
+		node *buf = new node();
+		buf->index = size;
+		buf->value = value;
+		buf->next = nullptr;
+		buf->prev = nullptr;
 		if (size == 0) {
-			head = buf;
+			head = *buf;
 			return;
 		}
 		node *temp = &head;
 		while (temp->next != nullptr) {
 			temp = temp->next;
 		}
-		temp->next = &buf;
+		temp->next = buf;
 		temp->next->prev = temp;
 	}
 
@@ -100,8 +104,10 @@ public:
 		int buf = node->value;
 		last = node;
 		node = node->prev;
-		node->next = nullptr;
-		last->prev = nullptr;
+		if (last != nullptr && node != nullptr) {
+			node->next = nullptr;
+			last->prev = nullptr;
+		}
 		return buf;
 	}
 
@@ -210,7 +216,6 @@ int main()
 	{
 		cout << cqueue.pop() << endl;
 	}
-
 	cout << endl;
 
 	return 0;
