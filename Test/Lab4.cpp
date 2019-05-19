@@ -153,8 +153,9 @@ public:
 	}
 };
 
-int main()
+int mainr()
 {
+	cout << "Введите значения для обычного стэка" << endl;
 	stack stack;
 	int a;
 	for (int i = 0; i < 5; i++)
@@ -164,12 +165,14 @@ int main()
 	}
 	cout << endl;
 
+	cout << "Значения из стэка" << endl;
 	for (int i = 0; i < 5; i++)
 	{
 		cout << stack.pop() << endl;
 	}
 	cout << endl;
 
+	cout << "Введите значения для обычной очереди" << endl;
 	queue q;
 	for (int i = 0; i < 5; i++)
 	{
@@ -178,12 +181,14 @@ int main()
 	}
 	cout << endl;
 
+	cout << "Значения из очереди" << endl;
 	for (int i = 0; i < 5; i++)
 	{
 		cout << q.pop() << endl;
 	}
 	cout << endl;
 
+	cout << "Введите значения для стэка на сонове связанного списка" << endl;
 	linkedStack lstack;
 	for (int i = 0; i < 5; i++)
 	{
@@ -192,12 +197,14 @@ int main()
 	}
 	cout << endl;
 
+	cout << "Значения из стэка" << endl;
 	for (int i = 0; i < 5; i++)
 	{
 		cout << lstack.pop() << endl;
 	}
 	cout << endl;
 
+	cout << "Введите значения для циклической очереди" << endl;
 	circledQueue cqueue;
 	for (int i = 0; i < 5; i++)
 	{
@@ -206,10 +213,8 @@ int main()
 	}
 	cout << endl;
 
-	for (int i = 0; i < 1; i++)
-	{
-		cout << cqueue.pop() << endl;
-	}
+	cout << cqueue.pop() << endl;
+	
 	cin >> a;
 	cqueue.push(a);
 	for (int i = 0; i < 5; i++)
