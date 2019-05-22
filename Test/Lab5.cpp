@@ -44,7 +44,6 @@ class linkedlist {
 private:
 	struct node {
 		man *value;
-		int index;
 		node *next;
 	};
 	
@@ -55,9 +54,7 @@ public:
 	void add(man *s) {
 		node *pnode = new node();
 		pnode->value = s;
-		pnode->index = size;
 		pnode->next = nullptr;
-		//node pnode = { &s, size, nullptr };
 		if (size == 0) {
 			head = pnode;
 			size++;
@@ -74,7 +71,13 @@ public:
 
 	void deleteNode(int index) {
 		node *node = head, *buf = nullptr;
-		for (int i = 0; i < index; i++)
+		if (index == 0) {
+			head = head->next;
+			freeMemory(node);
+			size--;
+			return;
+		}
+		for (int i = 0; i < index - 1; i++)
 		{
 			node = node->next;
 		}
@@ -112,7 +115,6 @@ class twoLinkedList {
 private:
 	struct node {
 		man *value;
-		int index;
 		node *next, *prev;
 	};
 
@@ -120,10 +122,9 @@ private:
 	int size = 0;
 
 public:
-	void add(man s) {
+	void add(man *s) {
 		node *pnode = new node();
-		pnode->value = &s;
-		pnode->index = size;
+		pnode->value = s;
 		pnode->next = nullptr;
 		pnode->prev = nullptr;
 		if (size == 0) {
@@ -143,13 +144,19 @@ public:
 
 	void deleteNode(int index) {
 		node *node = head, *buf = nullptr;
-		for (int i = 0; i < index; i++)
+		if (index == 0) {
+			head = head->next;
+			head->prev = nullptr;
+			freeMemory(node);
+			size--;
+			return;
+		}
+		for (int i = 0; i < index - 1; i++)
 		{
 			node = node->next;
 		}
 		buf = node->next;
-		node->next = node->next->next;
-		node = node->next;
+		node->next = buf->next;
 		node->prev = buf->prev;
 		freeMemory(buf);
 		size--;
@@ -174,7 +181,7 @@ private:
 	void freeMemory(node *node) {
 		delete[] node->value->pSurname;
 		delete[] node->value->pArray;
-		delete node->value;
+		//delete node->value;
 		delete node;
 	}
 };
@@ -183,7 +190,6 @@ class circledList {
 private:
 	struct node {
 		man *value;
-		int index;
 		node *next, *prev;
 	};
 
@@ -191,10 +197,9 @@ private:
 	int size = 0;
 
 public:
-	void add(man s) {
+	void add(man *s) {
 		node *pnode = new node();
-		pnode->value = &s;
-		pnode->index = size;
+		pnode->value = s;
 		pnode->next = nullptr;
 		pnode->prev = nullptr;
 		if (size == 0) {
@@ -214,14 +219,30 @@ public:
 		size++;
 	}
 
-	void deleteNode(int index) {//todo
+	void deleteNode(int index) {
 		node *node = head, *buf = nullptr;
-		for (int i = 0; i < index; i++)
+		if (index == 0) {
+			head = head->next;
+			head->prev = nullptr;
+			freeMemory(node);
+			size--;
+			return;
+		}
+		if (index == size - 1) {
+			node = tail;
+			tail = tail->prev;
+			tail->next = head;
+			freeMemory(node);
+			size--;
+			return;
+		}
+		for (int i = 0; i < index - 1; i++)
 		{
 			node = node->next;
 		}
 		buf = node->next;
-		node->next = node->next->next;
+		node->next = buf->next;
+		node->prev = buf->prev;
 		freeMemory(buf);
 		size--;
 	}
@@ -245,15 +266,12 @@ private:
 	void freeMemory(node *node) {
 		delete[] node->value->pSurname;
 		delete[] node->value->pArray;
-		delete node->value;
+		//delete node->value;
 		delete node;
 	}
 };
 
-int main() 
-{
-	setlocale(LC_ALL, "");
-
+void testLinkedList() {
 	int a = 0;
 	linkedlist llist;
 	man *s = new man[5];
@@ -271,11 +289,71 @@ int main()
 	cout << "Индекс удаляемого элемента" << endl;
 	cin >> a; cout << endl;
 	llist.deleteNode(a);
-	ar = llist.getAll();
+	man *ar1 = llist.getAll();
+	for (int i = 0; i < 4; i++)
+	{
+		outputInfo(ar1[i]);
+	}
+}
+
+void testTwoLinkedList() {
+	int a = 0;
+	twoLinkedList tllist;
+	man *s = new man[5];
+	for (int i = 0; i < 5; i++)
+	{
+		initStruct(&s[i]);
+		tllist.add(&s[i]);
+		cout << endl;
+	}
+	man *ar = tllist.getAll();
 	for (int i = 0; i < 5; i++)
 	{
 		outputInfo(ar[i]);
 	}
+	cout << "Индекс удаляемого элемента" << endl;
+	cin >> a; cout << endl;
+	tllist.deleteNode(a);
+	man *ar1 = tllist.getAll();
+	for (int i = 0; i < 4; i++)
+	{
+		outputInfo(ar1[i]);
+	}
+}
+
+void testCircledList() {
+	int a = 0;
+	circledList clist;
+	man *s = new man[5];
+	for (int i = 0; i < 5; i++)
+	{
+		initStruct(&s[i]);
+		clist.add(&s[i]);
+		cout << endl;
+	}
+	man *ar = clist.getAll();
+	for (int i = 0; i < 5; i++)
+	{
+		outputInfo(ar[i]);
+	}
+	cout << "Индекс удаляемого элемента" << endl;
+	cin >> a; cout << endl;
+	clist.deleteNode(a);
+	man *ar1 = clist.getAll();
+	for (int i = 0; i < 4; i++)
+	{
+		outputInfo(ar1[i]);
+	}
+
+}
+
+int main() 
+{
+	setlocale(LC_ALL, "");
+
+	testLinkedList();
+	testTwoLinkedList();
+	testCircledList();
 
 	return 0;
 }
