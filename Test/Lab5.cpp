@@ -31,13 +31,13 @@ void initStruct(man *s) {
 }
 
 void outputInfo(man &s) {
-	cout << s.name << ' ' << s.pSurname << ' ' << ", ID: " << s.id << endl;
+	cout << s.name << ' ' << s.pSurname << ", ID: " << s.id << endl;
 	cout << "Содержимое массива" << endl;
 	for (int i = 0; i < s.size; i++)
 	{
 		cout << s.pArray[i] << ' ';
 	}
-	cout << endl;
+	cout << endl << endl;
 }
 
 class linkedlist {
@@ -52,12 +52,12 @@ private:
 	int size = 0;
 	
 public:
-	void add(man s) {
+	void add(man *s) {
 		node *pnode = new node();
-		pnode->value = &s;
+		pnode->value = s;
 		pnode->index = size;
 		pnode->next = nullptr;
-		//node node1 = { &s, size, nullptr };
+		//node pnode = { &s, size, nullptr };
 		if (size == 0) {
 			head = pnode;
 			size++;
@@ -79,7 +79,7 @@ public:
 			node = node->next;
 		}
 		buf = node->next;
-		node->next = node->next->next;
+		node->next = buf->next;
 		freeMemory(buf);
 		size--;
 	}
@@ -103,7 +103,7 @@ private:
 	void freeMemory(node *node) {		
 		delete[] node->value->pSurname;
 		delete[] node->value->pArray;
-		delete node->value;
+		//delete node->value;
 		delete node;
 	}
 };
@@ -254,16 +254,24 @@ int main()
 {
 	setlocale(LC_ALL, "");
 
+	int a = 0;
 	linkedlist llist;
+	man *s = new man[5];
 	for (int i = 0; i < 5; i++)
 	{
-		man *s = new man();
-		initStruct(s);
-		llist.add(*s);
+		initStruct(&s[i]);
+		llist.add(&s[i]);
 		cout << endl;
-		delete s;
 	}
 	man *ar = llist.getAll();
+	for (int i = 0; i < 5; i++)
+	{
+		outputInfo(ar[i]);
+	}
+	cout << "Индекс удаляемого элемента" << endl;
+	cin >> a; cout << endl;
+	llist.deleteNode(a);
+	ar = llist.getAll();
 	for (int i = 0; i < 5; i++)
 	{
 		outputInfo(ar[i]);
