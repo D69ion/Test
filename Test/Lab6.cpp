@@ -34,7 +34,7 @@ void selection_sort(int *array) {
 	}
 }
 
-int main()
+int mainy()
 {
 	setlocale(LC_ALL, "");
 
