@@ -347,7 +347,7 @@ void testCircledList() {
 
 }
 
-int main() 
+int maint() 
 {
 	setlocale(LC_ALL, "");
 
