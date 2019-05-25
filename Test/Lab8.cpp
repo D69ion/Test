@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-
 class circledList {
 private:
 	struct node {
@@ -64,6 +63,18 @@ public:
 		size--;
 	}
 
+	int getIndex(int key) {
+		node *buf = head;
+		for (int i = 0; i < size; i++)
+		{
+			if (buf->value == key) {
+				return i;
+			}
+			buf = buf->next;
+		}
+		return -1;
+	}
+
 	int* getAll() {
 		int *arr = new int[size];
 		node *node = head;
@@ -85,20 +96,99 @@ private:
 	}
 };
 
-void testArray() {
+void selectionSort(int *array, int size) {
+	int min, temp;
+	for (int i = 0; i < size - 1; i++)
+	{
+		min = i;
+		for (int j = i + 1; j < size; j++)
+		{
+			if (array[j] < array[min])
+				min = j;
+		}
+		temp = array[i];
+		array[i] = array[min];
+		array[min] = temp;
+	}
+}
 
+int get(int key, int *array, int size) {
+	for (int i = 0; i < size; i++)
+	{
+		if (array[i] == key) {
+			return i;
+		}
+	}
+	return NULL;
+}
+
+int binarySearch(int key, int *array, int size) {
+	int left = 0, right = size - 1, middle;
+	while (true) {
+		middle = (left + right) / 2;
+		if (key == array[middle]) {
+			return middle;
+		}
+		if (key > array[middle]) {
+			left = middle + 1;
+		}
+		else {
+			right = middle - 1;
+		}
+
+		if (left > right) {
+			return-1;
+		}
+	}
+	return 0;
+}
+
+void testArray() {
+	cout << "Test array" << endl;
+	int const size = 5;
+	int array[size];
+	int key;
+	cout << "Enter array values" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cin >> array[i];
+	}
+	cout << "Value to find: ";
+	cin >> key;
+	cout << "Value index: " << get(key, array, size) << endl;
+	selectionSort(array, size);
+	cout << "Array after selection sort: ";
+	for (int i = 0; i < size; i++)
+	{
+		cout << array[i] << ' ';
+	}
+	cout << endl;
+	cout << "Value index after selection sort: " << binarySearch(key, array, size) << endl << endl;
 }
 
 void testList() {
-
+	cout << "Test list" << endl;
+	int size, buf, key;
+	circledList clist;
+	cout << "Enter the number of input elements: ";
+	cin >> size;
+	cout << "Enter list values" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cin >> buf;
+		clist.add(buf);
+	}
+	cout << "Value to find: ";
+	cin >> key;
+	cout << "Value index: " << clist.getIndex(key) << endl;
 }
 
 int main()
 {
 	setlocale(LC_ALL, "");
 
-	testList();
 	testArray();
-	
+	testList();
+
 	return 0;
 }
