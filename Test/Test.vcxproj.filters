@@ -44,5 +44,8 @@
     <ClCompile Include="Lab8.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Lab9.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

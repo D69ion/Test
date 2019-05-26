@@ -160,6 +160,7 @@
     <ClCompile Include="Lab5.cpp" />
     <ClCompile Include="Lab6.cpp" />
     <ClCompile Include="Lab8.cpp" />
+    <ClCompile Include="Lab9.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
