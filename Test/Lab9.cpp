@@ -18,6 +18,7 @@ public:
 			root = new node();
 			root->value = value;
 			root->left = root->right = nullptr;
+			size++;
 		}
 		else {
 			add(value, root);
@@ -25,51 +26,89 @@ public:
 	}
 
 	void deleteNode(int value) {
+		if (root == nullptr) {
+			return;
+		}
 
+		delete(value, root);
 	}
 
 	node* get(int key) {
-		if (root = nullptr) {
+		if (root == nullptr) {
 			return nullptr;
 		}
 		
 		return get(key, root);
 	}
 
-	void preorder() {
+	int* preorder() {
 		//работать с массивами в рекурсии и вывод в конце основного метода
-	}
-
-	void inorder() {
 
 	}
 
-	void postorder() {
+	int* inorder() {
+
+	}
+
+	int* postorder() {
 
 	}
 	
 private:
-	void add(int value, node *node) {
+	void add(int value, node *current) {
+		if (current == nullptr || value == current->value) {
+			return;
+		}
+		if (value < current->value) {
+			if (current->left == nullptr) {
+				current->left = new node();
+				current->left->value = value;
+				size++;
+			}
+			else {
+				add(value, current->left);
+			}
+		}
+		else if (value > current->value) {
+			if (current->right == nullptr) {
+				current->right = new node();
+				current->right->value = value;
+				size++;
+			}
+			else {
+				add(value, current->right);
+			}
+		}
+	}
+
+	void deleteNode(int value, node *current) {
 
 	}
 
-	void deleteNode(int value, node *node) {
+	node* get(int key, node *current) {
+		if (current == nullptr) {
+			return nullptr;
+		}
+		if (key == current->value) {
+			return current;
+		}
+		if (key < current->value) {
+			get(key, current->left);
+		}
+		else {
+			get(key, current->right);
+		}
+	}
+
+	void preorder(node *current) {
 
 	}
 
-	node* get(int key, node *node) {
+	void inorder(node *current) {
 
 	}
 
-	void preorder(node *node) {
-
-	}
-
-	void inorder(node *node) {
-
-	}
-
-	void postorder(node *node) {
+	void postorder(node *current) {
 
 	}
 };
