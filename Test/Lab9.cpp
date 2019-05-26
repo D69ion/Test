@@ -25,12 +25,13 @@ public:
 		}
 	}
 
-	void deleteNode(int value) {
+	void deletenode(int value) {
 		if (root == nullptr) {
 			return;
 		}
 
-		deleteNode(get(value));
+		deleteNode(root, value);
+		//deletenode(get(value));
 	}
 
 	node* get(int key) {
@@ -102,35 +103,84 @@ private:
 		}
 	}
 
-	void deleteNode(node* current) {
-		node *temp = nullptr;
-
-		if (current->right == nullptr) {
-			temp = current->left;
+	node* deleteNode(node* current, double key) {
+		if (current == nullptr) {
+			return current;
 		}
-		else {
-			temp = current->right;
 
-			if (temp->left == nullptr) {
-				temp->left = current->left;
+		if (current->value == key) {
+			node *temp;
+
+			if (current->right == nullptr) {
+				temp = current->left;
 			}
 			else {
-				node* min = temp->left;
+				temp = current->right;
 
-				while (min->left != nullptr) {
-					temp = min;
-					min = temp->left;
+				if (temp->left == nullptr) {
+					temp->left = current->left;
 				}
+				else {
+					node *min = temp->left;
 
-				temp->left = min->right;
-				min->left = current->left;
-				min->right = current->right;
-				temp = min;
+					while (min->left != nullptr) {
+						temp = min;
+						min = temp->left;
+					}
+
+					temp->left = min->right;
+					min->left = current->left;
+					min->right = current->right;
+					temp = min;
+				}
 			}
+
+			if (current == root) {
+				root = temp;
+			}
+
+			delete current;
+			return temp;
+		}
+		else if (key < current->value) {
+			current->left = deleteNode(current->left, key);
+		}
+		else {
+			current->right = deleteNode(current->right, key);
 		}
 
-		delete current;
+		return current;
 	}
+
+	//void deletenode(node* current) {
+	//	node *temp = nullptr;
+
+	//	if (current->right == nullptr) {
+	//		temp = current->left;
+	//	}
+	//	else {
+	//		temp = current->right;
+
+	//		if (temp->left == nullptr) {
+	//			temp->left = current->left;
+	//		}
+	//		else {
+	//			node* min = temp->left;
+
+	//			while (min->left != nullptr) {
+	//				temp = min;
+	//				min = temp->left;
+	//			}
+
+	//			temp->left = min->right;
+	//			min->left = current->left;
+	//			min->right = current->right;
+	//			temp = min;
+	//		}
+	//	}
+
+	//	delete current;
+	//}
 
 	node* get(int key, node *current) {
 		if (current == nullptr) {
@@ -173,7 +223,7 @@ int main() {
 
 	cout << "deleted node" << endl;
 	cin >> a;
-	btree.deleteNode(a);
+	btree.deletenode(a);
 	cout << endl;
 	btree.preorder(btree.getRoot());
 
