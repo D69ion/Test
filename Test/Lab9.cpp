@@ -11,7 +11,7 @@ private:
 
 	node *root = nullptr;
 	int size = 0;
-	
+
 public:
 	void add(int value) {
 		if (root == nullptr) {
@@ -30,30 +30,51 @@ public:
 			return;
 		}
 
-		delete(value, root);
+		deleteNode(get(value));
 	}
 
 	node* get(int key) {
 		if (root == nullptr) {
 			return nullptr;
 		}
-		
+
 		return get(key, root);
 	}
 
-	int* preorder() {
-		//работать с массивами в рекурсии и вывод в конце основного метода
+	void preorder(node* current) {
+		if (current == nullptr) {
+			return;
+		}
 
+		cout << current->value << ' ';
+		preorder(current->left);
+		preorder(current->right);
 	}
 
-	int* inorder() {
+	void inorder(node* current) {
+		if (current == nullptr) {
+			return;
+		}
 
+		inorder(current->left);
+		cout << current->value << ' ';
+		inorder(current->right);
 	}
 
-	int* postorder() {
+	void postorder(node* current) {
+		if (current == nullptr) {
+			return;
+		}
 
+		postorder(current->left);
+		postorder(current->right);
+		cout << current->value << ' ';
 	}
-	
+
+	node* getRoot() {
+		return root;
+	}
+
 private:
 	void add(int value, node *current) {
 		if (current == nullptr || value == current->value) {
@@ -81,8 +102,34 @@ private:
 		}
 	}
 
-	void deleteNode(int value, node *current) {
+	void deleteNode(node* current) {
+		node *temp = nullptr;
 
+		if (current->right == nullptr) {
+			temp = current->left;
+		}
+		else {
+			temp = current->right;
+
+			if (temp->left == nullptr) {
+				temp->left = current->left;
+			}
+			else {
+				node* min = temp->left;
+
+				while (min->left != nullptr) {
+					temp = min;
+					min = temp->left;
+				}
+
+				temp->left = min->right;
+				min->left = current->left;
+				min->right = current->right;
+				temp = min;
+			}
+		}
+
+		delete current;
 	}
 
 	node* get(int key, node *current) {
@@ -100,20 +147,35 @@ private:
 		}
 	}
 
-	void preorder(node *current) {
+	//void preorder(node *current) {
 
-	}
+	//}
 
-	void inorder(node *current) {
+	//void inorder(node *current) {
 
-	}
+	//}
 
-	void postorder(node *current) {
+	//void postorder(node *current) {
 
-	}
+	//}
 };
 
 int main() {
+	tree btree;
+	int a;
+	for (int i = 0; i < 6; i++)
+	{
+		cin >> a;
+		btree.add(a);
+	}
+	btree.preorder(btree.getRoot());
+	cout << endl;
+
+	cout << "deleted node" << endl;
+	cin >> a;
+	btree.deleteNode(a);
+	cout << endl;
+	btree.preorder(btree.getRoot());
 
 	return 0;
 }

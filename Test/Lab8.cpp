@@ -183,7 +183,7 @@ void testList() {
 	cout << "Value index: " << clist.getIndex(key) << endl;
 }
 
-int main()
+int mainu()
 {
 	setlocale(LC_ALL, "");
 
